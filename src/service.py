@@ -1,3 +1,8 @@
+# service.py
+
+# Отвечает за:
+
+# “получить данные с API”
 import requests
 
 def fetch_data(url: str):

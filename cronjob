@@ -1,1 +1,1 @@
-*/1 * * * * python /app/src/main.py
+*/5 * * * * cd /btc-price-script && python src/main.py >> /var/log/cron.log 2>&1

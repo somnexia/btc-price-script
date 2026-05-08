@@ -14,8 +14,9 @@
 URL = "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=eur"
 
 DB_CONFIG = {
-    "host": "localhost",
-    "user": "labuser",
-    "password": "123456",
-    "database": "btc"
+    "host": "btc-mysql",   # имя сервиса в Coolify
+    "user": "btc_user",
+    "password": "Zaza292472xaxa.",
+    "database": "default",
+    "port": 3306
 }

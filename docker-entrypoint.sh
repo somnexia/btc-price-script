@@ -11,5 +11,8 @@ with open("/tmp/container-env.sh", "w", encoding="utf-8") as env_file:
             env_file.write(f"export {key}={shlex.quote(value)}\n")
 PY
 
+cd /btc-price-script
+/usr/local/bin/python3 src/main.py >> /var/log/cron.log 2>&1 || true
+
 cron
 tail -f /var/log/cron.log

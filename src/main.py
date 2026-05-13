@@ -1,3 +1,6 @@
+from dotenv import load_dotenv
+load_dotenv()
+
 from config import COIN_ID, CURRENCY, DISCORD_WEBHOOK, URL
 from logger import error, info, warning
 from repository import save_price

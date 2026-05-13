@@ -13,6 +13,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Копируем весь проект
 COPY . .
 
+RUN chmod +x /btc-price-script/docker-entrypoint.sh
+
 # Копируем cron конфиг
 COPY cronjob /etc/cron.d/btc-cron
 
@@ -25,5 +27,5 @@ RUN crontab /etc/cron.d/btc-cron
 # Создаём лог файл
 RUN touch /var/log/cron.log
 
-# Запускаем cron и выводим лог в stdout контейнера
-CMD ["sh", "-c", "cron && tail -f /var/log/cron.log"]
+# Перед запуском cron сохраняем Coolify environment variables для cron-задачи
+CMD ["/btc-price-script/docker-entrypoint.sh"]

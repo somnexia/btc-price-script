@@ -36,6 +36,8 @@ cp .env.example .env
 - `DB_NAME` - имя базы данных.
 - `DB_USER` - пользователь MySQL.
 - `DB_PASSWORD` - пароль MySQL.
+- `DB_BOOTSTRAP_ENABLED` - включить одноразовую настройку пользователя базы через admin/root-доступ.
+- `DB_ADMIN_USER` и `DB_ADMIN_PASSWORD` - admin/root-учетка MySQL для bootstrap-режима.
 
 Настоящий `.env` не должен попадать в GitHub.
 
@@ -52,6 +54,20 @@ python src/main.py
 ## MySQL/phpMyAdmin
 
 Скрипт сам создает таблицу `btc_prices`, если ее еще нет. Если хотите создать ее вручную через phpMyAdmin, импортируйте `schema.sql`.
+
+Если MySQL возвращает `Access denied` для обычного пользователя, можно временно включить bootstrap-режим в Coolify:
+
+```env
+DB_BOOTSTRAP_ENABLED=true
+DB_ADMIN_USER=root
+DB_ADMIN_PASSWORD=your-root-password
+```
+
+После успешного лога `event=db_bootstrap_completed` выключите режим обратно:
+
+```env
+DB_BOOTSTRAP_ENABLED=false
+```
 
 Поля таблицы:
 

@@ -1,9 +1,9 @@
 from dotenv import load_dotenv
 load_dotenv()
 
-from config import COIN_ID, CURRENCY, DISCORD_WEBHOOK, URL
+from config import COIN_ID, CURRENCY, DB_BOOTSTRAP_ENABLED, DISCORD_WEBHOOK, URL
 from logger import error, info, warning
-from repository import save_price
+from repository import bootstrap_database_user, save_price
 from service import extract_price, fetch_data, send_discord_message
 
 
@@ -22,6 +22,14 @@ def main():
         return 1
 
     exit_code = 0
+
+    if DB_BOOTSTRAP_ENABLED:
+        try:
+            bootstrap_database_user()
+            info("MySQL user bootstrap completed", event="db_bootstrap_completed")
+        except Exception as e:
+            error(f"MySQL user bootstrap failed: {e}", event="db_bootstrap_failed")
+            exit_code = 1
 
     try:
         save_price(price, CURRENCY)

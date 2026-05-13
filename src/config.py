@@ -1,22 +1,40 @@
-# config.py
+import os
 
-# Хранит настройки:
 
-# URL API
-# валюта
-# интервал запуска
+SERVICE_NAME = os.environ.get("SERVICE_NAME", "btc-bot")
 
-# Чтобы потом не менять это в 5 местах как варвар.
-# URL = "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=eur"
-# CURRENCY = "eur"
-# INTERVAL = 300  # 5 minutes in seconds
+COIN_ID = os.environ.get("COIN_ID", "bitcoin")
+CURRENCY = os.environ.get("CURRENCY", "eur").lower()
+URL = os.environ.get(
+    "API_URL",
+    f"https://api.coingecko.com/api/v3/simple/price?ids={COIN_ID}&vs_currencies={CURRENCY}",
+)
 
-URL = "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=eur"
+DISCORD_WEBHOOK = os.environ.get("DISCORD_WEBHOOK")
+
+REQUEST_TIMEOUT_SECONDS = int(os.environ.get("REQUEST_TIMEOUT_SECONDS", "30"))
+INTERVAL = int(os.environ.get("INTERVAL_SECONDS", "300"))
+
+DB_HOST = os.environ.get("DB_HOST")
+DB_PORT = int(os.environ.get("DB_PORT", "3306"))
+DB_NAME = os.environ.get("DB_NAME")
+DB_USER = os.environ.get("DB_USER")
+DB_PASSWORD = os.environ.get("DB_PASSWORD")
 
 DB_CONFIG = {
-    "host": "btc-mysql",   # имя сервиса в Coolify
-    "user": "btc_user",
-    "password": "Zaza292472xaxa.",
-    "database": "default",
-    "port": 3306
+    "host": DB_HOST,
+    "port": DB_PORT,
+    "database": DB_NAME,
+    "user": DB_USER,
+    "password": DB_PASSWORD,
 }
+
+
+def missing_database_variables() -> list[str]:
+    required = {
+        "DB_HOST": DB_HOST,
+        "DB_NAME": DB_NAME,
+        "DB_USER": DB_USER,
+        "DB_PASSWORD": DB_PASSWORD,
+    }
+    return [name for name, value in required.items() if not value]

@@ -1,5 +1,10 @@
 import os
 
+from dotenv import load_dotenv
+
+
+load_dotenv()
+
 
 SERVICE_NAME = os.environ.get("SERVICE_NAME", "btc-bot")
 

@@ -25,6 +25,14 @@ DB_PORT = int(os.environ.get("DB_PORT", "3306"))
 DB_NAME = os.environ.get("DB_NAME")
 DB_USER = os.environ.get("DB_USER")
 DB_PASSWORD = os.environ.get("DB_PASSWORD")
+DB_BOOTSTRAP_ENABLED = os.environ.get("DB_BOOTSTRAP_ENABLED", "").lower() in {
+    "1",
+    "true",
+    "yes",
+    "on",
+}
+DB_ADMIN_USER = os.environ.get("DB_ADMIN_USER")
+DB_ADMIN_PASSWORD = os.environ.get("DB_ADMIN_PASSWORD")
 
 DB_CONFIG = {
     "host": DB_HOST,
@@ -34,6 +42,13 @@ DB_CONFIG = {
     "password": DB_PASSWORD,
 }
 
+DB_ADMIN_CONFIG = {
+    "host": DB_HOST,
+    "port": DB_PORT,
+    "user": DB_ADMIN_USER,
+    "password": DB_ADMIN_PASSWORD,
+}
+
 
 def missing_database_variables() -> list[str]:
     required = {
@@ -41,5 +56,17 @@ def missing_database_variables() -> list[str]:
         "DB_NAME": DB_NAME,
         "DB_USER": DB_USER,
         "DB_PASSWORD": DB_PASSWORD,
+    }
+    return [name for name, value in required.items() if not value]
+
+
+def missing_admin_database_variables() -> list[str]:
+    required = {
+        "DB_HOST": DB_HOST,
+        "DB_NAME": DB_NAME,
+        "DB_USER": DB_USER,
+        "DB_PASSWORD": DB_PASSWORD,
+        "DB_ADMIN_USER": DB_ADMIN_USER,
+        "DB_ADMIN_PASSWORD": DB_ADMIN_PASSWORD,
     }
     return [name for name, value in required.items() if not value]
